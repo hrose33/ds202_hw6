@@ -1,0 +1,42 @@
+---
+title: Homework 6
+author: Hunter Rose; hrose33
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(readr)
+library(stringr)
+library(tidyverse)
+library(lubridate)
+library(magrittr)
+```
+
+```{r}
+bst_in_shw <- read_excel('KIB - Best in Show (public)1.xlsx', sheet='Best in show full sheet')
+```
+
+```{r}
+dog <- bst_in_shw %>%
+  select(1, 2, 3, 5, 8, 27)
+colnames(dog)
+head(dog$Intelligence)
+#factor(dog$size)
+dog$size[dog$size == 'small'] <- 5
+dog$size[dog$size == 'medium'] <- 10
+dog$size[dog$size == 'large'] <- 15
+dog$Intelligence[as.numeric(dog$Intelligence) < 50] <- 'clever'
+dog$Intelligence[as.numeric(dog$Intelligence) > 49] <- 'dumb'
+
+```
+
+```{r}
+dog %>%
+  ggplot(aes(x=dog$'datadog score', y=Popularity, color = category)) + geom_point(aes(shape=dog$'Intelligence')) + geom_text(label=dog$'Dog breed', size = 2)
+```
+When trying to incorporate size, I continued to get the following error: Error in grid.Call.graphics(C_setviewport, vp, TRUE) : non-finite location and/or size for viewport. I am not asking for points because I know that I should have asked but was swamped with other assignments and knew it wouldn't be anwesered in time. I got my graph to the point it was prior to incorporating size, let me know how you would incorporate size so I will know for future reference. Thanks!
